@@ -42,14 +42,19 @@ class Booking {
         const bookingResponse = allResponses[0];
         const eventsCurrentResponse = allResponses[1];
         const eventsRepeatResponse = allResponses[2];
+        if (!bookingResponse.ok || !eventsCurrentResponse.ok || !eventsRepeatResponse.ok) {
+          throw new Error('There was a problem fetching data.');
+        }
         return Promise.all([bookingResponse.json(), eventsCurrentResponse.json(), eventsRepeatResponse.json()]);
       })
-
       .then(function ([booking, eventsCurrent, eventsRepeat]) {
         console.log(booking);
         console.log(eventsCurrent);
         console.log(eventsRepeat);
         thisBooking.parseData(booking, eventsCurrent, eventsRepeat);
+      })
+      .catch(function (error) {
+        console.error(error);
       });
   }
 
@@ -108,11 +113,7 @@ class Booking {
     thisBooking.date = thisBooking.datePicker.value;
     thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
 
-    let allAvailable = false;
-
-    if (typeof thisBooking.booked[thisBooking.date] == 'undefined' || typeof thisBooking.booked[thisBooking.date][thisBooking.hour] == 'undefined') {
-      allAvailable = true;
-    }
+    const allAvailable = typeof thisBooking.booked[thisBooking.date] == 'undefined' || typeof thisBooking.booked[thisBooking.date][thisBooking.hour] == 'undefined';
 
     for (let table of thisBooking.dom.tables) {
       let tableId = table.getAttribute(settings.booking.tableIdAttribute);
@@ -141,8 +142,8 @@ class Booking {
   render(element) {
     const thisBooking = this;
 
-    const generatedHTML = templates.bookingWidget(); 
-    const generatedDOM = utils.createDOMFromHTML(generatedHTML); 
+    const generatedHTML = templates.bookingWidget();
+    const generatedDOM = utils.createDOMFromHTML(generatedHTML);
     const bookingWrapper = document.querySelector(select.containerOf.booking);
     bookingWrapper.appendChild(generatedDOM);
 
@@ -188,14 +189,14 @@ class Booking {
       if (table.classList.contains(classNames.booking.tableSelected)) {
 
         table.classList.remove(classNames.booking.tableSelected);
-        thisBooking.updateDOM(); 
-        
+        thisBooking.updateDOM();
+
 
       } else if (!table.classList.contains(classNames.booking.tableSelected)) {
 
         thisBooking.updateDOM(); //aktualizuje wygląd tabeli
-        const tableId = table.getAttribute(settings.booking.tableIdAttribute); 
-        table.classList.add(classNames.booking.tableSelected); 
+        const tableId = table.getAttribute(settings.booking.tableIdAttribute);
+        table.classList.add(classNames.booking.tableSelected);
         thisBooking.selectedTable = parseInt(tableId);
       }
     });
@@ -242,7 +243,6 @@ class Booking {
       })
       .then(function (parsedResponse) {
         alert('Thank you for your booking!');
-        console.log('parsedResponse', parsedResponse);
         thisBooking.makeBooked(parsedResponse.date, parsedResponse.hour, parsedResponse.duration, parsedResponse.table);
         thisBooking.updateDOM();
       });

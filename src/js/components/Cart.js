@@ -6,7 +6,7 @@ class Cart {
   constructor(element) {
     const thisCart = this;
 
-    thisCart.products = []; 
+    thisCart.products = [];
 
     thisCart.getElements(element);
 
@@ -90,23 +90,22 @@ class Cart {
 
     for (let product of thisCart.products) {
       thisCart.totalNumber += product.amount;
-      thisCart.subtotalPrice += product.price;
+      thisCart.subtotalPrice += product.price * product.amount;
     }
 
-    if (thisCart.subtotalPrice != 0) {
+    if (thisCart.subtotalPrice !== 0) {
       thisCart.totalPrice = thisCart.subtotalPrice + deliveryFee;
-    } else {
-      thisCart.totalPrice = 0;
     }
 
     for (let total of thisCart.dom.totalPrice) {
-      total.innerHTML = thisCart.totalPrice;
+      total.innerHTML = thisCart.totalPrice.toFixed(2);
     }
 
     thisCart.dom.totalNumber.innerHTML = thisCart.totalNumber;
-    thisCart.dom.subtotalPrice.innerHTML = thisCart.subtotalPrice;
-    thisCart.dom.deliveryFee.innerHTML = deliveryFee;
+    thisCart.dom.subtotalPrice.innerHTML = thisCart.subtotalPrice.toFixed(2);
+    thisCart.dom.deliveryFee.innerHTML = deliveryFee.toFixed(2);
   }
+
 
   remove(event) {
     const thisCart = this;
@@ -149,10 +148,16 @@ class Cart {
 
     fetch(url, options)
       .then(function (response) {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
         return response.json();
       })
       .then(function (parsedResponse) {
         console.log('parsedResponse', parsedResponse);
+      })
+      .catch(function (error) {
+        console.log('There was a problem with the fetch operation:', error);
       });
   }
 }

@@ -74,7 +74,7 @@ const app = {
       link.classList.toggle(classNames.nav.active, link.getAttribute('href') == '#' + pageId);
     }
   },
-  initMenu: function () { 
+  initMenu: function () {
     const thisApp = this;
     //console.log('thisApp.data:', thisApp.data);
 
@@ -95,12 +95,12 @@ const app = {
         return rawResponse.json();
       })
       .then(function (parsedResponse) {
-        //console.log('parsedResponse', parsedResponse);
-
         thisApp.data.products = parsedResponse;
         app.initMenu();
+      })
+      .catch(function (error) {
+        console.error('Error fetching data:', error);
       });
-    //console.log('thisApp.data', JSON.stringify(thisApp.data));
   },
 
   initCart: function () {
@@ -119,7 +119,7 @@ const app = {
   init: function () {
     const thisApp = this;
     thisApp.initPages();
-    thisApp.initData(); 
+    thisApp.initData();
     thisApp.initCart();
     thisApp.initBooking();
     thisApp.initHome();
