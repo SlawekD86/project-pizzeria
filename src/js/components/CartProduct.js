@@ -14,7 +14,7 @@ class CartProduct {
 
     thisCartProduct.getElements(element);
     thisCartProduct.initAmountWidget();
-    thisCartProduct.inintActions();
+    thisCartProduct.initActions();
 
   }
 
@@ -56,7 +56,7 @@ class CartProduct {
     thisCartProduct.dom.wrapper.dispatchEvent(event);
   }
 
-  inintActions() {
+  initActions() {
     const thisCartProduct = this;
 
     thisCartProduct.dom.edit.addEventListener('click', function (event) {

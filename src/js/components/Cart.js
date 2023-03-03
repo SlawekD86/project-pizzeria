@@ -74,6 +74,10 @@ class Cart {
 
     thisCart.dom.productList.appendChild(generatedDOM);
 
+    //console.log('adding product', menuProduct);
+
+    //thisCart.products.push(menuProduct); // pokazuje co jest w koszyku
+    //console.log('thisCart.products', thisCart.products);
 
     thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
 

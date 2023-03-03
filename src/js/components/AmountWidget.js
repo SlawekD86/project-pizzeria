@@ -9,20 +9,18 @@ class AmountWidget extends BaseWidget {
 
     thisWidget.getElements(element);
 
+    thisWidget.value = 1;
+    thisWidget.renderValue();
     thisWidget.initActions();
 
-    //console.log('AmountWidget:', thisWidget);
-    //console.log('constructor arguments:', element);
   }
 
   getElements() {
     const thisWidget = this;
 
     thisWidget.dom.input = thisWidget.dom.wrapper.querySelector(select.widgets.amount.input);
-    //console.log('AmountWidget:', thisWidget.input);
     thisWidget.dom.linkDecrease = thisWidget.dom.wrapper.querySelector(select.widgets.amount.linkDecrease);
     thisWidget.dom.linkIncrease = thisWidget.dom.wrapper.querySelector(select.widgets.amount.linkIncrease);
-    //console.log('AmountWidget:', thisWidget.linkIncrease);
   }
 
   isValid(value) {

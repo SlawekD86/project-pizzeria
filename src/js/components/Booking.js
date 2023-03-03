@@ -48,9 +48,9 @@ class Booking {
         return Promise.all([bookingResponse.json(), eventsCurrentResponse.json(), eventsRepeatResponse.json()]);
       })
       .then(function ([booking, eventsCurrent, eventsRepeat]) {
-        console.log(booking);
-        console.log(eventsCurrent);
-        console.log(eventsRepeat);
+        // console.log(booking);
+        // console.log(eventsCurrent);
+        // console.log(eventsRepeat);
         thisBooking.parseData(booking, eventsCurrent, eventsRepeat);
       })
       .catch(function (error) {
@@ -84,7 +84,7 @@ class Booking {
       }
     }
 
-    console.log('thisBooking.booked', thisBooking.booked);
+    // console.log('thisBooking.booked', thisBooking.booked);
 
     thisBooking.updateDOM();
   }
